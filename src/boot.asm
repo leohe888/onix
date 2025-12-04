@@ -11,13 +11,28 @@ mov es, ax
 mov ss, ax
 mov sp, 0x7c00
 
-; 0xb8000 是文本模式的显存地址
-mov ax, 0xb800
-mov ds, ax
-mov byte [0], 'H'
+xchg bx, bx; bochs 魔数断点
+
+mov si, booting
+call print
 
 ; 阻塞
 jmp $
+
+print:
+    mov ah, 0x0e
+.next:
+    mov al, [si]
+    cmp al, 0
+    jz .done
+    int 0x10
+    inc si
+    jmp .next
+.done:
+    ret
+
+booting:
+    db "Booting Onix...", 10, 13, 0; \n\r\0
 
 ; 将剩余的空间填充为 0
 times 510 - ($ - $$) db 0

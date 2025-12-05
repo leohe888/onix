@@ -8,6 +8,8 @@
 - AH = 0x0e —— 显示字符，并移动光标。
   - AL = 要显示的字符。
 
+## int 0x15
+
 ## 参考文献
 
 - [BIOS 中断](https://www.ngpaws.com/downloads/dosvault/8086_bios_and_dos_interrupts.html)

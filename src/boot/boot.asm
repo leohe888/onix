@@ -28,6 +28,7 @@ jmp 0:0x1002
 
 ; 阻塞
 jmp $
+
 read_disk:
     ; 设置读写扇区的数量
     mov dx, 0x1f2

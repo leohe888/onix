@@ -26,8 +26,7 @@ jnz error
 
 jmp 0:0x1002
 
-; 阻塞
-jmp $
+jmp $; 阻塞
 
 read_disk:
     ; 设置读写扇区的数量
@@ -55,7 +54,7 @@ read_disk:
     ; 设置寻址模式，驱动器，以及 LBA 的 24-27 位
     inc dx; 0x1f6
     shr ecx, 8
-    and cl, 0b1111; 将高四位置为 0
+    and cl, 0b0000_1111; 将高四位置为 0
     mov al, 0b1110_0000; LBA 模式，主盘
     or al, cl
     out dx, al
@@ -129,8 +128,6 @@ error:
     jmp $
     .msg db "Booting Error!!!", 10, 13, 0; \n\r\0
 
-; 将剩余的空间填充为 0
-times 510 - ($ - $$) db 0
+times 510 - ($ - $$) db 0; 将剩余的空间填充为 0
 
-; 主引导扇区的最后两个字节必须是 0x55 和 0xaa
-db 0x55, 0xaa   ; 或者 dw 0xaa55
+db 0x55, 0xaa; 等价于 dw 0xaa55。主引导扇区的最后两个字节必须是 0x55 和 0xaa

@@ -1,7 +1,19 @@
 BUILD := ../build
 SRC := .
 
-ENTRYPOINT := 0x10000
+ENTRYPOINT := 0x10000			# 内核入口地址
+
+CFLAGS := -m32					# 生成 32 位代码
+CFLAGS += -fno-builtin			# 不使用 GCC 内建函数
+CFLAGS += -nostdinc				# 不使用标准头文件
+CFLAGS += -fno-pic				# 不生成位置无关代码
+CFLAGS += -fno-pie				# 不生成位置无关可执行文件
+CFLAGS += -nostdlib				# 不使用标准库
+CFLAGS += -fno-stack-protector	# 不使用栈保护
+CFLAGS := $(strip $(CFLAGS))	# 去掉多余的空格
+
+DEBUG := -g						# 生成调试信息
+INCLUDE := -I$(SRC)/include		# 包含头文件目录
 
 $(BUILD)/boot/%.bin: $(SRC)/boot/%.asm
 	$(shell mkdir -p $(dir $@))
@@ -9,9 +21,14 @@ $(BUILD)/boot/%.bin: $(SRC)/boot/%.asm
 
 $(BUILD)/kernel/%.o: $(SRC)/kernel/%.asm
 	$(shell mkdir -p $(dir $@))
-	nasm -f elf32 $< -o $@
+	nasm -f elf32 $(DEBUG) $< -o $@
 
-$(BUILD)/kernel.bin: $(BUILD)/kernel/start.o
+$(BUILD)/kernel/%.o: $(SRC)/kernel/%.c
+	$(shell mkdir -p $(dir $@))
+	gcc $(CFLAGS) $(DEBUG) $(INCLUDE) -c $< -o $@
+
+$(BUILD)/kernel.bin: $(BUILD)/kernel/start.o \
+	$(BUILD)/kernel/main.o \
 	$(shell mkdir -p $(dir $@))
 	ld -m elf_i386 -static $^ -o $@ -Ttext $(ENTRYPOINT)
 

@@ -6,8 +6,6 @@ dw 0x55aa; 魔数
 mov si, loading
 call print
 
-xchg bx, bx
-
 detect_momory:
     xor ebx, ebx; 将 ebx 清零
 
@@ -38,7 +36,6 @@ detect_momory:
     jmp prepare_protected_mode
 
 prepare_protected_mode:
-    xchg bx, bx
 
     cli; 关闭中断
 
@@ -83,8 +80,6 @@ error:
 
 [bits 32]
 protected_mode:
-    xchg bx, bx
-
     ; 初始化段寄存器
     mov ax, data_selector
     mov ds, ax
@@ -199,14 +194,14 @@ gdt_base:
     dd 0, 0; NULL 描述符
 gdt_code:
     dw memory_limit & 0xffff; 段界限 0 ~ 15 位
-    dw memory_base & 0xffff; 段基地址 0 ~ 16 位
+    dw memory_base & 0xffff; 段基地址 0 ~ 15 位
     db (memory_base >> 16) & 0xff; 段基地址 16 ~ 23 位
     db 0b1_00_1_1010; P(1) DPL(00) S(1) Type(0010 - 代码段，非依从，可读，未被访问过)
     db 0b1_1_0_0_0000 | (memory_limit >> 16) & 0xf;G(1) D/B(1) L(0) AVL(0) 段界限 16 ~ 19 位
     db (memory_base >> 24) & 0xff; 段基地址 24 ~ 31 位
 gdt_data:
     dw memory_limit & 0xffff; 段界限 0 ~ 15 位
-    dw memory_base & 0xffff; 段基地址 0 ~ 16 位
+    dw memory_base & 0xffff; 段基地址 0 ~ 15 位
     db (memory_base >> 16) & 0xff; 段基地址 16 ~ 23 位
     db 0b1_00_1_0010; P(1) DPL(00) S(1) Type(0010 - 数据段，向上扩展，可写，未被访问过)
     db 0b1_1_0_0_0000 | (memory_limit >> 16) & 0xf;G(1) D/B(1) L(0) AVL(0) 段界限 16 ~ 19 位

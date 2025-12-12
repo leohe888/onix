@@ -1,4 +1,10 @@
 00010000 T _start
-00011000 T __bss_start
-00011000 T _edata
-00011000 T _end
+0001000d T kernel_init
+0001005d T __x86.get_pc_thunk.ax
+00013000 d _GLOBAL_OFFSET_TABLE_
+0001300c D magic
+00013010 D message
+0001301e B __bss_start
+0001301e D _edata
+00013020 B buf
+00013420 B _end

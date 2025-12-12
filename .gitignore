@@ -1,0 +1,10 @@
+*.img
+*.ini
+*.bin
+*.map
+*.o
+*.out
+*.zst
+*.gz
+*.lock
+*.vmdk

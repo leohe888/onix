@@ -5,6 +5,8 @@
 
 #define NULL 0  // 空指针
 
+#define EOS '\0'// End of string
+
 #define bool _Bool
 #define true 1
 #define false 0

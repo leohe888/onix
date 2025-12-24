@@ -1,4 +1,19 @@
-# 函数栈帧
+# x86-32 System V ABI
+
+## 寄存器使用规则
+
+- 调用者保存（caller-saved）：
+  - eax
+  - ecx
+  - edx
+- 被调用者保存（callee-saved）：
+  - ebx
+  - esi
+  - edi
+  - ebp
+  - esp
+
+## 函数调用约定
 
 - 栈帧布局：
 
@@ -24,16 +39,16 @@
 
 - 栈帧切换：
 
-```nasm
-func:
-    ; 等价于 enter
-    push ebp
-    mov ebp, esp
-    ...
-    ; 等价于 leave
-    mov esp, ebp
-    pop ebp
-    ret
-```
+    ```nasm
+    func:
+        ; 等价于 enter
+        push ebp
+        mov ebp, esp
+        ...
+        ; 等价于 leave
+        mov esp, ebp
+        pop ebp
+        ret
+    ```
 
 - 返回值通常放在 eax 寄存器中。

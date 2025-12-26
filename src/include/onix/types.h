@@ -11,7 +11,8 @@
 #define true 1
 #define false 0
 
-#define _packed __attribute__((packed)) // 告诉 GCC 不要对结构体进行内存对齐
+#define _packed __attribute__((packed)) // 不要对结构体进行内存对齐
+#define _ofp __attribute__((optimize("omit-frame-pointer"))) // 不要生成帧指针
 
 typedef unsigned int size_t;
 typedef char int8;

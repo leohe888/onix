@@ -1,5 +1,6 @@
 global task_switch
 task_switch:
+    xchg bx, bx
     push ebp
     mov ebp, esp
 

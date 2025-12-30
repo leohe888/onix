@@ -7,7 +7,7 @@
 task_t *a = (task_t *)0x1000;
 task_t *b = (task_t *)0x2000;
 
-extern void task_switch(task_t *next);
+void task_switch(task_t *next);
 
 task_t *running_task()
 {

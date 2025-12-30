@@ -19,7 +19,7 @@ mov edi, 0x1000; 目标地址
 mov ecx, 2; 起始扇区
 mov bl, 4; 扇区数量
 
-call read_disk
+call read_disk; 读取内核加载器
 
 cmp word [0x1000], 0x55aa
 jnz error

@@ -90,11 +90,11 @@ protected_mode:
 
     mov esp, 0x10000; 修改栈顶
 
-    ; 读取内核
     mov edi, 0x10000; 目标地址
     mov ecx, 10; 起始扇区
     mov bl, 200; 扇区数量
-    call read_disk
+
+    call read_disk; 读取内核
 
     jmp code_selector:0x10000; 跳转到内核
 

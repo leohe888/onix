@@ -32,12 +32,12 @@ Intel 8259A 是最经典的 PIC 芯片，其结构如下：
 
 从 8259A：
 
-- IRQ0：实时时钟（RTC）。
+- IRQ0：实时时钟（Real-Time Clock，RTC）。
 - IRQ1：软件重定向到主片的 IRQ2。
 - IRQ2：保留。
 - IRQ3：保留。
 - IRQ4：PS/2 鼠标。
-- IRQ5：浮点运算单元（FPU），也称为协处理器。
+- IRQ5：浮点运算单元（Floating Point Unit，FPU），也称为协处理器。
 - IRQ6：主 IDE 控制器。
 - IRQ7：从 IDE 控制器。
 

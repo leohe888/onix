@@ -25,7 +25,7 @@ detect_momory:
 
     add di, cx; 改变下一个 ARDS 缓存地址
 
-    inc word [ards_count]; 将 ARDS 数量加一
+    inc dword [ards_count]; 将 ARDS 数量加一
 
     cmp ebx, 0
     jnz .next
@@ -96,11 +96,12 @@ protected_mode:
 
     call read_disk; 读取内核
 
+    mov eax, 0x20251212; 内核魔数
+    mov ebx, ards_count; ARDS 数量地址
+
     jmp code_selector:0x10000; 跳转到内核
 
     ud2; 表示出错
-
-jmp $; 阻塞
 
 read_disk:
     ; 设置读写扇区的数量
@@ -209,5 +210,5 @@ gdt_data:
 gdt_end:
 
 ards_count:
-    dw 0
+    dd 0
 ards_buffer:

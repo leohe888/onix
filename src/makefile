@@ -85,7 +85,7 @@ clean:
 
 .PHONY: bochs
 bochs: $(BUILD)/master.img
-	bochs -q -f ../bochs/bochsrc
+	bochs -q -f ../bochs/bochsrc -unlock
 
 QEMU:= qemu-system-i386 \
 	-m 32M \

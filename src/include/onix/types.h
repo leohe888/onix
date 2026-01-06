@@ -13,8 +13,9 @@
 #define true 1
 #define false 0
 
-#define _packed __attribute__((packed)) // 不要对结构体进行内存对齐
-#define _ofp __attribute__((optimize("omit-frame-pointer"))) // 不要生成帧指针
+#define _packed __attribute__((packed))                         // 不要对结构体进行内存对齐
+#define _ofp __attribute__((optimize("omit-frame-pointer")))    // 不要生成帧指针
+#define _inline __attribute__((always_inline)) inline           // 总是内联
 
 typedef unsigned int size_t;
 typedef char int8;
@@ -28,5 +29,6 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 
 typedef u32 time_t;
+typedef u32 idx_t;
 
 #endif

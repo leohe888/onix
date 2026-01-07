@@ -2,6 +2,7 @@
 #include <onix/interrupt.h>
 #include <onix/assert.h>
 #include <onix/debug.h>
+#include <onix/task.h>
 
 #define PIT_CHAN0_REG 0X40
 #define PIT_CHAN2_REG 0X42
@@ -43,18 +44,28 @@ void clock_handler(int vector)
 {
     assert(vector == 0x20);
     send_eoi(vector);
+    stop_beep();
 
     jiffies++;
     // DEBUGK("clock jiffies %d ...\n", jiffies);
 
-    stop_beep();
+    task_t *task = running_task();
+    assert(task->magic == ONIX_MAGIC);
+
+    task->jiffies = jiffies;
+    task->ticks--;
+    if (!task->ticks)
+    {
+        task->ticks = task->priority;
+        schedule();
+    }
 }
 
 void pit_init()
 {
     // 配置计数器 0 时钟
-    outb(PIT_CTRL_REG, 0b00110100);             // 计数器 0 - 先读写低字节，后读写高字节 - 模式 2 - 二进制计数器
-    outb(PIT_CHAN0_REG, CLOCK_COUNTER & 0xff);  // 计数器 2 - 先读写低字节，后读写高字节 - 模式 3 - 二进制计数器
+    outb(PIT_CTRL_REG, 0b00110100);
+    outb(PIT_CHAN0_REG, CLOCK_COUNTER & 0xff);
     outb(PIT_CHAN0_REG, (CLOCK_COUNTER >> 8) & 0xff);
 
     // 配置计数器 2 蜂鸣器

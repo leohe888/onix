@@ -6,7 +6,7 @@ dw 0x55aa; 魔数
 mov si, loading
 call print
 
-detect_momory:
+detect_memory:
     xor ebx, ebx; 将 ebx 清零
 
     ; ARDS 缓存地址
@@ -41,7 +41,7 @@ prepare_protected_mode:
 
     ; 打开 A20 线
     in al, 0x92
-    xor al, 0b10
+    or al, 0b10
     out 0x92, al
 
     lgdt [gdt_ptr]; 加载 GDT

@@ -5,11 +5,9 @@ extern handler_table
 
 section .text
 
-; 中断处理函数宏，接收两个参数，第一个是中断向量，第二个是是否需要压入 0x20222202。
-; 如果需要压入，则说明该中断不会自动压入错误码，手动压入一个占位符，以保持平衡。
 %macro INTERRUPT_HANDLER 2
 interrupt_handler_%1:
-    xchg bx, bx
+    ; xchg bx, bx
 %ifn %2
     push 0x20222202
 %endif
@@ -34,8 +32,6 @@ interrupt_entry:
 
     ; 调用中断处理函数，handler_table 中存储了中断处理函数的指针
     call [handler_table + eax * 4]
-
-    xchg bx, bx
 
     ; 对应 push eax，调用结束恢复栈
     add esp, 4

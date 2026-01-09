@@ -21,19 +21,19 @@ void idle_thread()
 
 #include <onix/mutex.h>
 
-mutex_t mutex;
+lock_t lock;
 
 void init_thread()
 {
-    mutex_init(&mutex);
+    lock_init(&lock);
     set_interrupt_state(true);
     u32 counter = 0;
 
     while (true)
     {
-        mutex_lock(&mutex);
+        lock_acquire(&lock);
         LOGK("init task %d....\n", counter++);
-        mutex_unlock(&mutex);
+        lock_release(&lock);
         // sleep(500);
     }
 }
@@ -45,9 +45,9 @@ void test_thread()
 
     while (true)
     {
-        mutex_lock(&mutex);
+        lock_acquire(&lock);
         LOGK("test task %d....\n", counter++);
-        mutex_unlock(&mutex);
+        lock_release(&lock);
         // sleep(709);
     }
 }

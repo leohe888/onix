@@ -40,7 +40,7 @@ _start:
 
     lgdt [gdt_ptr]
 
-    jmp dword code_selector:_next
+    jmp code_selector:_next
 _next:
 
     mov ax, data_selector

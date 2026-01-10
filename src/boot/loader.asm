@@ -99,7 +99,7 @@ protected_mode:
     mov eax, 0x20251212; 内核魔数
     mov ebx, ards_count; ARDS 数量地址
 
-    jmp code_selector:0x10000; 跳转到内核
+    jmp code_selector:0x10040; 跳转到内核
 
     ud2; 表示出错
 

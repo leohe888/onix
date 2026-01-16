@@ -148,7 +148,7 @@ void memory_map_init()
     LOGK("Total pages %d free pages %d\n", total_pages, free_pages);
 
     // 初始化内核虚拟内存位图，需要 8 位对齐
-    u32 length = (IDX(KERNEL_MEMORY_SIZE) - IDX(MEMORY_BASE)) / 8;
+    u32 length = (IDX(KERNEL_MEMORY_SIZE) - IDX(MEMORY_BASE)) / 8;  // 224
     bitmap_init(&kernel_map, (u8 *)KERNEL_MAP_BITS, length, IDX(MEMORY_BASE));
     bitmap_scan(&kernel_map, memory_map_pages);
 }
@@ -243,14 +243,15 @@ static void entry_init(page_entry_t *entry, u32 index)
 // 初始化内存映射
 void mapping_init()
 {
-    page_entry_t *pde = (page_entry_t *)KERNEL_PAGE_DIR;
+    page_entry_t *pde = (page_entry_t *)KERNEL_PAGE_DIR;    // 页目录
     memset(pde, 0, PAGE_SIZE);
 
     idx_t index = 0;
 
+    // 恒等映射前 8MB 内存
     for (idx_t didx = 0; didx < (sizeof(KERNEL_PAGE_TABLE) / 4); didx++)
     {
-        page_entry_t *pte = (page_entry_t *)KERNEL_PAGE_TABLE[didx];
+        page_entry_t *pte = (page_entry_t *)KERNEL_PAGE_TABLE[didx];    // 页表
         memset(pte, 0, PAGE_SIZE);
 
         page_entry_t *dentry = &pde[didx];

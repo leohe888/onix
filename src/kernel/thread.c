@@ -14,12 +14,19 @@ void idle_thread()
     while (true)
     {
         // LOGK("idle task.... %d\n", counter++);
+        // BMB;
         asm volatile(
             "sti\n" // 开中断
             "hlt\n" // 关闭 CPU，进入暂停状态，等待外中断的到来
         );
         yield(); // 放弃执行权，调度执行其他任务
     }
+}
+
+void test_recursion()
+{
+    char tmp[0x400];
+    test_recursion();
 }
 
 static void user_init_thread()
@@ -29,12 +36,11 @@ static void user_init_thread()
     char ch;
     while (true)
     {
+        // test();
+        printf("task is in user mode %d\n", counter++);
         BMB;
-        // asm volatile("in $0x92, %ax\n");
+        test_recursion();
         sleep(1000);
-        // LOGK("%c\n", ch);
-        // printk("task is in user mode %d\n", counter++);
-        // printf("task is in user mode %d\n", counter++);
     }
 }
 
@@ -52,19 +58,8 @@ void test_thread()
 
     while (true)
     {
-        // LOGK("test task %d....\n", counter++);
-        void *ptr = kmalloc(1200);
-        LOGK("kmalloc 0x%p....\n", ptr);
-        kfree(ptr);
-
-        ptr = kmalloc(1024);
-        LOGK("kmalloc 0x%p....\n", ptr);
-        kfree(ptr);
-
-        ptr = kmalloc(54);
-        LOGK("kmalloc 0x%p....\n", ptr);
-        kfree(ptr);
-
-        sleep(5000);
+        LOGK("test task %d....\n", counter++);
+        BMB;
+        sleep(2000);
     }
 }

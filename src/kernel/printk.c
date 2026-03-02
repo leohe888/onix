@@ -2,6 +2,8 @@
 #include <onix/console.h>
 #include <onix/stdio.h>
 
+extern int32 console_write();
+
 static char buf[1024];
 
 int printk(const char *fmt, ...)
@@ -10,12 +12,12 @@ int printk(const char *fmt, ...)
     int i;
 
     va_start(args, fmt);
-    
+
     i = vsprintf(buf, fmt, args);
 
     va_end(args);
 
-    console_write(buf, i);
+    console_write(NULL, buf, i);
 
     return i;
 }
